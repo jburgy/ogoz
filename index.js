@@ -9,7 +9,8 @@ addEventListener('fetch', (event) => {
  * @returns {Promise<Response>}
  */
 async function handleRequest(request) {
-    const response = await fetch('https://bur.gy' + new URL(request.url).pathname);
+    const { pathname, searchParams } = new URL(request.url);
+    const response = await fetch(new URL(pathname, `https://${searchParams.get('host') ?? 'bur.gy'}`));
     const headers = new Headers(response.headers);
     headers.set('Cross-Origin-Embedder-Policy', 'require-corp');
     headers.set('Cross-Origin-Opener-Policy', 'same-origin');
